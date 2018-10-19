@@ -1,0 +1,23 @@
+{
+  "name": "graphql-firebase",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "serve": "npm run build && node lib/index.js",
+    "start": "node lib/index.js",
+    "deploy": "npm run build && gcloud app deploy"
+  },
+  "main": "lib/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.1.0",
+    "firebase-admin": "^6.0.0",
+    "graphql": "^14.0.2",
+    "graphql-tag": "^2.10.0"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.0.3",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.3"
+  }
+}
