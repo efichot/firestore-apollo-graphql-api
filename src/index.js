@@ -1,10 +1,10 @@
-import '@babel/polyfill';
-import { ApolloServer } from 'apollo-server';
-import dotenv from 'dotenv';
-import typeDefs from './typeDefs';
-import resolvers from './resolvers';
+import '@babel/polyfill'
+import { ApolloServer } from 'apollo-server'
+import dotenv from 'dotenv'
+import typeDefs from './typeDefs'
+import resolvers from './resolvers'
 
-dotenv.config();
+dotenv.config()
 
 const server = new ApolloServer({
   typeDefs,
@@ -13,8 +13,8 @@ const server = new ApolloServer({
     apiKey: process.env.APOLLO_ENGINE_API_KEY
   },
   introspection: true
-});
+})
 
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+  console.log(`🚀  Server ready at ${url}`)
+})

@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server';
+import { gql } from 'apollo-server'
 
 export default gql`
   type Book {
@@ -18,4 +18,4 @@ export default gql`
     books: [Book]!
     writer(name: String!): Writer
   }
-`;
+`
