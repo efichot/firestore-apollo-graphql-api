@@ -2,7 +2,7 @@
   "name": "graphql-firebase",
   "version": "1.0.0",
   "scripts": {
-    "start": "node -r dotenv/config lib/index.js",
+    "start": "nodemon -r dotenv/config lib/index.js",
     "serve": "npm run build && npm start",
     "build": "babel src -d lib",
     "deploy": "npm run build && gcloud app deploy"
@@ -10,13 +10,13 @@
   "main": "lib/index.js",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.1.2",
     "@babel/polyfill": "^7.0.0",
     "apollo-server": "^2.1.0",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "dotenv": "^6.1.0",
     "firebase-admin": "^6.0.0",
-    "graphql": "^14.0.2"
+    "graphql": "^14.0.2",
+    "nodemon": "^1.18.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",

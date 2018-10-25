@@ -14,6 +14,10 @@ export default gql`
     books: [Book]
   }
 
+  type Mutation {
+    addBook(title: String!, writer: String!): Book!
+  }
+
   type Query {
     books: [Book]!
     writer(name: String!): Writer
