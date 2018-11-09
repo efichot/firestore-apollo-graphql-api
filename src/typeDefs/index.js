@@ -22,4 +22,8 @@ export default gql`
     books: [Book]!
     writer(name: String!): Writer
   }
+
+  type Subscription {
+    onBookAdded(): Book!
+  }
 `

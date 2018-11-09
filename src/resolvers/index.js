@@ -15,7 +15,6 @@ export default {
 
   Writer: {
     async books (writer) {
-      console.log('TCL: asyncbooks -> writer', writer)
       try {
         const docs = await db
           .collection('books')
@@ -51,7 +50,10 @@ export default {
           })
           return {
             title,
-            writerId
+            writerId,
+            writer: {
+              name: writer
+            }
           }
         }
         const docWriter = await db.collection('writers').add({
@@ -63,12 +65,19 @@ export default {
         })
         return {
           title,
-          writerId: docWriter.id
+          writerId: docWriter.id,
+          writer: {
+            name: writer
+          }
         }
       } catch (e) {
         return new ApolloError(e)
       }
     }
+  },
+
+  Subscription: {
+    async onBookAdded () {}
   },
 
   Query: {
