@@ -24,6 +24,6 @@ export default gql`
   }
 
   type Subscription {
-    onBookAdded(): Book!
+    newBook: Book!
   }
 `

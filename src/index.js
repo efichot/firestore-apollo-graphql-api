@@ -1,10 +1,15 @@
 import '@babel/polyfill'
-import { ApolloServer } from 'apollo-server'
+import express from 'express'
+import { createServer } from 'http'
+import { ApolloServer } from 'apollo-server-express'
 import dotenv from 'dotenv'
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 
 dotenv.config()
+const PORT = process.env.PORT || 4000
+
+const app = express()
 
 const server = new ApolloServer({
   typeDefs,
@@ -15,6 +20,16 @@ const server = new ApolloServer({
   introspection: true
 })
 
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`)
+server.applyMiddleware({ app })
+
+const httpServer = createServer(app)
+server.installSubscriptionHandlers(httpServer)
+
+httpServer.listen({ port: PORT }, () => {
+  console.log(
+    `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+  )
+  console.log(
+    `🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
+  )
 })

@@ -1,5 +1,9 @@
-import { ApolloError, ValidationError } from 'apollo-server'
+import { ApolloError, ValidationError, PubSub } from 'apollo-server'
 import db from '../firebase'
+
+const ADD_BOOK = 'add_book'
+
+const pubsub = new PubSub()
 
 export default {
   Book: {
@@ -44,10 +48,20 @@ export default {
           if (snapBook && snapBook.docs[0] && snapBook.docs[0].exists) {
             return new ApolloError('Book already created!')
           }
-          db.collection('books').add({
-            title,
-            writerId
-          })
+          db
+            .collection('books')
+            .add({
+              title,
+              writerId
+            })
+            .then(doc =>
+              pubsub.publish(ADD_BOOK, {
+                newBook: {
+                  title,
+                  writerId
+                }
+              })
+            )
           return {
             title,
             writerId,
@@ -59,10 +73,20 @@ export default {
         const docWriter = await db.collection('writers').add({
           name: writer
         })
-        db.collection('books').add({
-          title,
-          writerId: docWriter.id
-        })
+        db
+          .collection('books')
+          .add({
+            title,
+            writerId: docWriter.id
+          })
+          .then(doc =>
+            pubsub.publish(ADD_BOOK, {
+              newBook: {
+                title,
+                writerId: docWriter.id
+              }
+            })
+          )
         return {
           title,
           writerId: docWriter.id,
@@ -77,7 +101,9 @@ export default {
   },
 
   Subscription: {
-    async onBookAdded () {}
+    newBook: {
+      subscribe: () => pubsub.asyncIterator([ADD_BOOK])
+    }
   },
 
   Query: {
